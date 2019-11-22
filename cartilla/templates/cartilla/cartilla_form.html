@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+    <form method="POST">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+            </div>
+            <div class="panel-body">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span> Guardar</button>
+                <a href="{% url 'cartilla:cartilla_list' %}" class="btn btn-success"><span class="fa fa-undo"></span> Cancelar</a>
+            </div>
+        </div>
+    </form>
+{% endblock page_content %}

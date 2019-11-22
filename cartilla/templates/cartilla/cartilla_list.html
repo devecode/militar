@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<div class="card shadow mb-4">
+  <!-- Card Header - Dropdown -->
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Listado de Cartillas</h6>
+  </div>
+  <!-- Card Body -->
+  <div class="card-body">
+    {% if not obj %}
+    <div class="alert alert-info">No Hay Cartillas</div>
+    {% endif %}
+    <div class="buttons-toolbar">
+        <a class="btn btn-success" href="{% url 'cartilla:cartilla_new' %}"><i cass="far fa-calendar-plus"></i> Nueva</a>
+    </div>
+
+    <table 
+      id="table"
+      data-toggle="table"
+      data-pagination="true"
+      data-search="true"
+      data-show-columns="true"
+      data-show-toggle="true"
+      data-show-fullscreen="true"
+      data-toolbar=".buttons-toolbar"
+      data-locale="es-MX"
+    >
+    <thead>
+      <th class="all">Imprimir</th>        
+      <th data-sortable="true" data-field="id">Clase</th>        
+      <th data-sortable="true" data-field="nombre">Nombre</th>
+      <th data-sortable="true" data-field="fecha_nacimiento">Fecha de Nacimiento</th>
+      <th data-sortable="true" data-field="nacio">Nació en</th>
+      <th data-sortable="true" data-field="curp">CURP</th>
+      <th data-sortable="true" data-field="papa">Papá</th>
+      <th data-sortable="true" data-field="mama">Mamá</th>
+      <th data-sortable="true" data-field="estado">Estado Civil</th>
+      <th data-sortable="true" data-field="ocupacion">Ocupación</th>
+      <th data-sortable="true" data-field="leer_escribir">¿Sabe leer?</th>
+      <th data-sortable="true" data-field="grado_maximo">Grado Máximo</th>
+      <th data-sortable="true" data-field="domicilio">Domicilio</th>
+      <th data-sortable="true" data-field="presidente">Presidente</th>
+      <th data-sortable="true" data-field="lugar">Lugar</th>
+      <th data-sortable="true" data-field="fecha">Fecha</th>
+      <th class="all">Acciones</th>
+    </thead>
+    <tbody>
+      {% for item in obj%}
+      <tr>
+        <td>
+            <a href="{% url 'cartilla:reporte' item.id %}" target="_blank" class="href btn btn-success btn-circle">
+                <i class="fas fa-print"></i>
+            </a>
+        </td>
+        <td>{{ item.clase }}</td>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.fecha_nacimiento }}</td>
+        <td>{{ item.nacio }}</td>
+        <td>{{ item.curp }}</td>
+        <td>{{ item.papa }}</td>
+        <td>{{ item.mama }}</td>
+        <td>{{ item.estado }}</td>
+        <td>{{ item.ocupacion }}</td>
+        <td>{{ item.leer_escribir }}</td>
+        <td>{{ item.grado_maximo }}</td>
+        <td>{{ item.domicilio }}</td>
+        <td>{{ item.presidente }}</td>
+        <td>{{ item.lugar }}</td>
+        <td>{{ item.fecha }}</td>
+        <td>
+          <a href="{% url 'cartilla:cartilla_edit' item.id %}" class="href btn btn-warning btn-circle">
+              <i class="far fa-edit"></i>
+          </a>
+
+          <a href="{% url 'cartilla:cartilla_delete' item.id %}" class="btn btn-danger btn-circle">
+            <i class="fa fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+
+    </table>
+  </div>
+</div>
+{% endblock %}
+{% block js_page %}
+<script>
+</script>
+{% endblock %}
