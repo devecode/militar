@@ -36,7 +36,7 @@ class Cartilla(models.Model):
     domicilio = models.CharField('DOMICILIO', max_length=500)
     presidente = models.CharField('PRESIDENTE', max_length=500)
     lugar = models.CharField('LUGAR', max_length=500)
-    fecha = models.DateTimeField('FECHA', auto_now_add=True)
+    fecha = models.DateField('FECHA', auto_now_add=True)
 
     def __str__(self):
         return '{} {}'.format(self.nombre, self.curp)

@@ -19,11 +19,13 @@ class SinPrivilegios(LoginRequiredMixin, PermissionRequiredMixin):
             self.login_url='bases:sin_privilegios'
         return HttpResponseRedirect(reverse_lazy(self.login_url))
 
-
-class Home(LoginRequiredMixin, generic.TemplateView):
-    #cartilla = Cartilla.objects.last(id='id') 
+class HomeView(SinPrivilegios, generic.ListView):
+    model = Cartilla
+    queryset = Cartilla.objects.latest('pk')
+    context_object_name = "obj"
     template_name = 'bases/home.html'
     login_url='bases:login'
+    permission_required="cartilla.view_cartilla"
 
 class HomeSinPrivilegios(LoginRequiredMixin, generic.TemplateView):
     login_url = "bases:login"

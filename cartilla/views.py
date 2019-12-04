@@ -67,68 +67,26 @@ class CartillaDelete(SinPrivilegios, generic.DeleteView):
     success_message="Cartilla Borrada"
 
 def reporte(request,pk):
-
-
     response = HttpResponse(content_type='application/pdf')
-    report = generarPDF(pk)
-    buff = BytesIO()
-    doc = SimpleDocTemplate(buff,
-                        pagesize=A6,
-                        rightMargin=40,
-                        leftMargin=40,
-                        topMargin=30,
-                        bottomMargin=18,
-                        )
-    doc.build(report)
-    response.write(buff.getvalue())
-    buff.close()
+    cartilla = Cartilla.objects.get(pk=pk)
+
+    canva = canvas.Canvas(response, pagesize=A6)
+    canva.setFont("Times-Roman", 9)
+    canva.drawString(158, 355, "" + str(cartilla.clase))
+    canva.drawString(65.7, 342.7, "" + cartilla.nombre)
+    canva.drawString(139.2, 331, "" + str(cartilla.fecha_nacimiento))
+    canva.drawString(78.6, 318, "" + cartilla.nacio)
+    canva.drawString(71.7, 305.5, "" + cartilla.papa)
+    canva.drawString(55, 293.2, "" + cartilla.mama)
+    canva.drawString(99.6, 280.6, "" + cartilla.estado)
+    canva.drawString(81.3, 267.8, "" + cartilla.ocupacion)
+    canva.drawString(150.3, 254.8, "" + cartilla.leer_escribir)
+    canva.drawString(191, 254.8, "" + cartilla.curp)
+    canva.drawString(170.7, 243.2, "" + cartilla.grado_maximo)
+    canva.drawString(84.2, 230.9, "" + cartilla.domicilio)
+    canva.drawString(19.7, 137.2, "" + cartilla.presidente)
+    canva.drawString(42.2, 119.3, "" + cartilla.lugar)
+    canva.drawString(201.9, 119.3, "" + str(cartilla.fecha))
+    canva.save()
+
     return response
-
-def texto(texto, tamanio):
-    styles = getSampleStyleSheet()
-    style = 'Heading{}'.format(tamanio)
-    return Paragraph(texto, styles[style])
-
-
-def generarPDF(pk):
-
-
-    body = ParagraphStyle('parrafos',
-                           fontSize = 9,
-                           fontName="Times-Roman",
-                           leftIndent=36,
-                           spaceAfter = 1,
-                           spaceBefore = 0
-                           )
-    clase = ParagraphStyle('parrafos',
-                            alignment = TA_CENTER,
-                           fontSize = 9,
-                           fontName="Times-Roman",
-                           spaceAfter = 0
-                           )
-
-
-
-    info = []
-   
-
-    cartilla = Cartilla.objects.filter(id=pk)
-
-    for c in cartilla:
-        info.append(Paragraph("{}".format(c.clase),clase))
-        info.append(Paragraph("{}".format(c.nombre),body))
-        info.append(Paragraph("{}".format(c.fecha_nacimiento),body))
-        info.append(Paragraph("{}".format(c.nacio),body))
-        info.append(Paragraph("{}".format(c.papa),body))
-        info.append(Paragraph("{}".format(c.mama),body))
-        info.append(Paragraph("{}".format(c.estado),body))
-        info.append(Paragraph("{}".format(c.ocupacion),body))
-        info.append(Paragraph("{}".format(c.leer_escribir),body))
-        info.append(Paragraph("{}".format(c.curp),body))
-        info.append(Paragraph("{}".format(c.grado_maximo),body))
-        info.append(Paragraph("{}".format(c.domicilio),body))
-        info.append(Paragraph("{}".format(c.presidente),body))
-        info.append(Paragraph("{}".format(c.lugar),body))
-        info.append(Paragraph("{}".format(c.fecha),body))
-
-    return info
